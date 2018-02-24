@@ -12,6 +12,7 @@
 #include "paintthread.h"
 #include <opencv2/opencv.hpp>
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -32,6 +33,9 @@ public slots:
 signals:
     void payloadArrived(QByteArray *receive_buffer);
 
+private slots:
+    void on_startServerButton_clicked();
+
 private:
     QMutex buffer_mutex;
     Ui::MainWindow *ui;
@@ -39,6 +43,7 @@ private:
     paintThread *pthread;
     qint64 total_filesize = 0;
     QByteArray buffer;
+
 };
 
 #endif // MAINWINDOW_H

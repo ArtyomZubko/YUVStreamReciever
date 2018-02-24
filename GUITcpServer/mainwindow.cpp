@@ -5,23 +5,6 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    server = new QTcpServer(this);
-    pthread = new paintThread(); //создание потока
-
-    connect(this, SIGNAL(payloadArrived(QByteArray*)),pthread, SLOT(paintFrame(QByteArray*)));//сигнал буффер пополнен к слоту потока
-    connect(pthread, SIGNAL(matReady(cv::Mat*)),this, SLOT(readyPaint(cv::Mat*)));//сигнал о том, что матрица готова в потоке к текущему слоту отрисовки
-    connect(server,SIGNAL(newConnection()),this,SLOT(newConnection()));
-
-    pthread->start();
-
-    if(server->listen(QHostAddress::Any,9999)){
-        qDebug() << "Server started!";
-    } else {
-        qDebug() << "Server could not start";
-    }
-
-
 }
 
 MainWindow::~MainWindow()
@@ -55,3 +38,21 @@ void MainWindow::readyPaint(cv::Mat *img)
     delete img;
 }
 
+
+void MainWindow::on_startServerButton_clicked()
+{
+    server = new QTcpServer(this);
+    pthread = new paintThread(); //создание потока
+
+    connect(this, SIGNAL(payloadArrived(QByteArray*)),pthread, SLOT(paintFrame(QByteArray*)));//сигнал буффер пополнен к слоту потока
+    connect(pthread, SIGNAL(matReady(cv::Mat*)),this, SLOT(readyPaint(cv::Mat*)));//сигнал о том, что матрица готова в потоке к текущему слоту отрисовки
+    connect(server,SIGNAL(newConnection()),this,SLOT(newConnection()));
+
+    pthread->start();
+
+    if(server->listen(QHostAddress::Any,ui->portNum->text().toInt())){
+        qDebug() << "Server started!";
+    } else {
+        qDebug() << "Server could not start";
+    }
+}

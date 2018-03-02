@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network gamepad
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,11 +27,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    paintthread.cpp
+    paintthread.cpp \
+    gamepadthread.cpp
 
 HEADERS += \
         mainwindow.h \
-    paintthread.h
+    paintthread.h \
+    gamepadthread.h
 
 FORMS += \
         mainwindow.ui

@@ -10,6 +10,7 @@
 #include <QGraphicsScene>
 #include <QMutex>
 #include "paintthread.h"
+#include "gamepadthread.h"
 #include <opencv2/opencv.hpp>
 
 
@@ -30,16 +31,21 @@ public slots:
     void readyRead();
     void readyPaint(cv::Mat*img);
 
+
 signals:
     void payloadArrived(QByteArray *receive_buffer);
+    void connectToHost(QString ip, QString port);
 
 private slots:
     void on_startServerButton_clicked();
+
+    void on_gmpdconnButton_clicked();
 
 private:
     QMutex buffer_mutex;
     Ui::MainWindow *ui;
     QTcpServer *server;
+    GamepadThread *gpthread;
     paintThread *pthread;
     qint64 total_filesize = 0;
     QByteArray buffer;

@@ -56,3 +56,9 @@ void MainWindow::on_startServerButton_clicked()
         qDebug() << "Server could not start";
     }
 }
+
+void MainWindow::on_gmpdconnButton_clicked()
+{
+    gpthread = new GamepadThread(ui->gmpdAdress->text(),ui->gmpdPort->text().toInt());
+    gpthread->start();
+}

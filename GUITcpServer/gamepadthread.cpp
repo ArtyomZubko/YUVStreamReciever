@@ -86,18 +86,20 @@ void GamepadThread::slotSendToServer()
 void GamepadThread::updateTime()
 {
     QByteArray buffer;
-    buffer.append("{\"LX\":" + QString::number(m_gamepad->axisLeftX())
-                  + "\"LY\":" + QString::number(m_gamepad->axisLeftY())
-                  + "\"RX\":" + QString::number(m_gamepad->axisRightX())
-                  + "\"RY\":" + QString::number(m_gamepad->axisRightY())
-                  + "\"A\":" + QString::number(m_gamepad->buttonA())
-                  + "\"B\":" + QString::number(m_gamepad->buttonB())
-                  + "\"X\":" + QString::number(m_gamepad->buttonX())
-                  + "\"Y\":" + QString::number(m_gamepad->buttonY())
-                  + "\"LT\":" + QString::number(m_gamepad->buttonL2())
-                  + "\"RT\":" + QString::number(m_gamepad->buttonR2())
-                  +"}");
-    //buffer.append(QString::number(m_gamepad->buttonA()));
-    m_pTcpSocket->write(buffer + '\n');
+    buffer.append(QString::number(m_gamepad->axisLeftX())+"S"+QString::number(m_gamepad->axisLeftY()) + "S" + QString::number(m_gamepad->axisRightX()) + "S" + QString::number(m_gamepad->axisRightY())+ "S" + QString::number(m_gamepad->buttonA())  + "S" + QString::number(m_gamepad->buttonB()) + "S" + QString::number(m_gamepad->buttonX()) + "S" + QString::number(m_gamepad->buttonY())+ "S" + QString::number(m_gamepad->buttonL2()) + "S" + QString::number(m_gamepad->buttonR2())      );
+//    buffer.append("{ \"LX\":" + QString::number(m_gamepad->axisLeftX())
+//                  + ", \"LY\":" + QString::number(m_gamepad->axisLeftY())
+//                  + ", \"RX\":" + QString::number(m_gamepad->axisRightX())
+//                  + ", \"RY\":" + QString::number(m_gamepad->axisRightY())
+//                  + ", \"A\":" + QString::number(m_gamepad->buttonA())
+//                  + ", \"B\":" + QString::number(m_gamepad->buttonB())
+//                  + ", \"X\":" + QString::number(m_gamepad->buttonX())
+//                  + ", \"Y\":" + QString::number(m_gamepad->buttonY())
+//                  + ", \"LT\":" + QString::number(m_gamepad->buttonL2())
+//                  + ", \"RT\":" + QString::number(m_gamepad->buttonR2())
+//                  +"} ");
+
+
+    m_pTcpSocket->write(buffer);
 
 }

@@ -9,6 +9,7 @@
 #include <QtGamepad/QGamepad>
 #include <QtGamepad/QGamepadManager>
 #include <QTimer>
+#include <QJsonObject>
 
 class GamepadThread: public QThread
 {

@@ -30,6 +30,7 @@ public slots:
     void slotConnected();
     void slotSendToServer();
     void updateTime();
+    void buttonStateChanged();
 
 private:
     QTcpSocket* m_pTcpSocket;

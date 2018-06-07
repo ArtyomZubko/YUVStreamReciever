@@ -25,6 +25,10 @@ signals:
 
 private:
     QMutex buff_mutex;
+    quint8
+    START_BYTE = 0x01,
+    END_BYTE = 0x02;
+
     const qint64 FRAME_HEIGHT = 480;//320;
     const qint64 FRAME_WIDTH = 640;//560;
     qint64 SIZE_OF_YUV420p_FRAME = ((FRAME_HEIGHT * FRAME_WIDTH)/8)*12 ;

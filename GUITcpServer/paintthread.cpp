@@ -12,11 +12,11 @@ void paintThread::paintFrame(QByteArray *buffer)
         //framecount++;
         buff_mutex.unlock();
 
-        cv::Mat yuvImg = cv::Mat(FRAME_HEIGHT+FRAME_HEIGHT/2,FRAME_WIDTH,CV_8UC1,imageBuffer.data());
+        cv::Mat yuvImg = cv::Mat(FRAME_HEIGHT + FRAME_HEIGHT/2,FRAME_WIDTH,CV_8UC1,imageBuffer.data());
         cv::Mat * img = new cv::Mat();
         cv::cvtColor(yuvImg,*img,cv::COLOR_YUV420p2BGR);
 
-        //qDebug() << "Frames:" << framecount;
+        qDebug() << "Frames:" << framecount;
 
         emit matReady(img);
     }

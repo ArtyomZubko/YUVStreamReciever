@@ -25,8 +25,8 @@ signals:
 
 private:
     QMutex buff_mutex;
-    const qint64 FRAME_HEIGHT = 320;
-    const qint64 FRAME_WIDTH = 560;
+    const qint64 FRAME_HEIGHT = 480;//320;
+    const qint64 FRAME_WIDTH = 640;//560;
     qint64 SIZE_OF_YUV420p_FRAME = ((FRAME_HEIGHT * FRAME_WIDTH)/8)*12 ;
     QByteArray imageBuffer;
     qint64 framecount = 0;

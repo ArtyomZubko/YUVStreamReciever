@@ -38,6 +38,9 @@ private:
     paintThread *pthread;
     qint64 total_filesize = 0;
     QByteArray buffer;
+    const qint64 FRAME_HEIGHT = 480;//320;
+    const qint64 FRAME_WIDTH = 640;//560;
+    qint64 SIZE_OF_YUV420p_FRAME = ((FRAME_HEIGHT * FRAME_WIDTH)/8)*12 ;
 };
 
 #endif // MAINWINDOW_H

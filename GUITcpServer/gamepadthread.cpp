@@ -17,22 +17,22 @@ GamepadThread::GamepadThread(QString adress,int port)
 
     m_gamepad = new QGamepad(*gamepads.begin(), this);
 
-//    tmr = new QTimer();
-//    tmr->setInterval(10);
-//    connect(tmr, SIGNAL(timeout()), this, SLOT(updateTime()));
-//    tmr->start();
+    tmr = new QTimer();
+    tmr->setInterval(10);
+    connect(tmr, SIGNAL(timeout()), this, SLOT(updateTime()));
+    tmr->start();
 
 
-    connect(m_gamepad, &QGamepad::axisLeftXChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::axisLeftYChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::axisRightXChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::axisRightYChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::buttonAChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::buttonBChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::buttonYChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::buttonXChanged,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::buttonL2Changed,this,&GamepadThread::buttonStateChanged);
-    connect(m_gamepad, &QGamepad::buttonR2Changed,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::axisLeftXChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::axisLeftYChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::axisRightXChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::axisRightYChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::buttonAChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::buttonBChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::buttonYChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::buttonXChanged,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::buttonL2Changed,this,&GamepadThread::buttonStateChanged);
+//    connect(m_gamepad, &QGamepad::buttonR2Changed,this,&GamepadThread::buttonStateChanged);
 }
 
 void GamepadThread::slotConnected()

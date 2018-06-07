@@ -51,7 +51,7 @@ void MainWindow::on_startServerButton_clicked()
     pthread->start();
 
     if(server->listen(QHostAddress::Any,ui->portNum->text().toInt())){
-        qDebug() << "Server started!";
+        qDebug() << "Server started старт!";
     } else {
         qDebug() << "Server could not start";
     }

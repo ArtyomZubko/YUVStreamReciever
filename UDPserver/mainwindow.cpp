@@ -34,8 +34,8 @@ void MainWindow::readyRead(){
     //delete datagramBuffer;
     buffer_mutex.unlock();
 
-
-    emit payloadArrived(&buffer); //сигнал в поток о том, что буффер пополнен
+    if (buffer.size() > SIZE_OF_YUV420p_FRAME+2)
+        emit payloadArrived(&buffer); //сигнал в поток о том, что буффер пополнен
 }
 
 //отрисовка

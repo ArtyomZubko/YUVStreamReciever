@@ -6,13 +6,12 @@ void paintThread::paintFrame(QByteArray *buffer)
 
 //        //Тестовый алгоритм
 //        int currupted_bytes_counter = 0;
-//        while (buffer->size() > SIZE_OF_YUV420p_FRAME+2)
+//        while (buffer->size() >= currupted_bytes_counter + SIZE_OF_YUV420p_FRAME+2)//протестировать > либо >=
 //        {
 //            if((buffer->at(currupted_bytes_counter)==START_BYTE) && (buffer->at(currupted_bytes_counter + SIZE_OF_YUV420p_FRAME + 1) == END_BYTE)){
 //                buff_mutex.unlock();
 //                if(currupted_bytes_counter>0){//удаление всех предыдущих байтов, не являющихся частью пакета
 //                    buffer->remove(0,currupted_bytes_counter);
-//                    currupted_bytes_counter = 0;
 //                }
 //                for (int a=1; a < SIZE_OF_YUV420p_FRAME+1; a++){//копируем изображение в отдельный буфер без байтов пакета
 //                    imageBuffer.append(buffer->at(a));

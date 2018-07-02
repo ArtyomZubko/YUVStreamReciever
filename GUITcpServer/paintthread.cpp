@@ -16,7 +16,7 @@ void paintThread::paintFrame(QByteArray *buffer)
         cv::Mat * img = new cv::Mat();
         cv::cvtColor(yuvImg,*img,cv::COLOR_YUV420p2BGR);
 
-        qDebug() << "Frames:" << framecount;
+        //qDebug() << "Frames:" << framecount;
 
         emit matReady(img);
     }

@@ -18,7 +18,7 @@ GamepadThread::GamepadThread(QString adress,int port)
     m_gamepad = new QGamepad(*gamepads.begin(), this);
 
     tmr = new QTimer();
-    tmr->setInterval(10);
+    tmr->setInterval(20);
     connect(tmr, SIGNAL(timeout()), this, SLOT(updateTime()));
     tmr->start();
 
@@ -50,28 +50,41 @@ void GamepadThread::slotSendToServer()
 
 void GamepadThread::updateTime()
 {
-    QByteArray buffer;
-    buffer.append(QString::number(m_gamepad->axisLeftX())+"S"+QString::number(m_gamepad->axisLeftY()) + "S" + QString::number(m_gamepad->axisRightX()) + "S" + QString::number(m_gamepad->axisRightY())+ "S" + QString::number(m_gamepad->buttonA())  + "S" + QString::number(m_gamepad->buttonB()) + "S" + QString::number(m_gamepad->buttonX()) + "S" + QString::number(m_gamepad->buttonY())+ "S" + QString::number(m_gamepad->buttonL2()) + "S" + QString::number(m_gamepad->buttonR2())      );
-//    buffer.append("{ \"LX\":" + QString::number(m_gamepad->axisLeftX())
-//                  + ", \"LY\":" + QString::number(m_gamepad->axisLeftY())
-//                  + ", \"RX\":" + QString::number(m_gamepad->axisRightX())
-//                  + ", \"RY\":" + QString::number(m_gamepad->axisRightY())
-//                  + ", \"A\":" + QString::number(m_gamepad->buttonA())
-//                  + ", \"B\":" + QString::number(m_gamepad->buttonB())
-//                  + ", \"X\":" + QString::number(m_gamepad->buttonX())
-//                  + ", \"Y\":" + QString::number(m_gamepad->buttonY())
-//                  + ", \"LT\":" + QString::number(m_gamepad->buttonL2())
-//                  + ", \"RT\":" + QString::number(m_gamepad->buttonR2())
-//                  +"} ");
+    buffer.clear();
+    quint8 LX =  mapRange(100*(m_gamepad->axisLeftX()),-100,100,0,255);
+    quint8 LY =  mapRange(100*(m_gamepad->axisLeftY()),-100,100,0,255);
+    quint8 RX =  mapRange(100*(m_gamepad->axisRightX()),-100,100,0,255);
+    quint8 RY =  mapRange(100*(m_gamepad->axisRightY()),-100,100,0,255);
+    quint8 A = m_gamepad->buttonA();
+    quint8 B = m_gamepad->buttonB();
+    quint8 X = m_gamepad->buttonX();
+    quint8 Y = m_gamepad->buttonY();
+    quint8 L2 = mapRange(100*(m_gamepad->buttonL2()),0,100,0,255);
+    quint8 R2 = mapRange(100*(m_gamepad->buttonR2()),0,100,0,255);
+    buffer.append(LX);
+    buffer.append(LY);
+    buffer.append(RX);
+    buffer.append(RY);
+    buffer.append(A);
+    buffer.append(B);
+    buffer.append(X);
+    buffer.append(Y);
+    buffer.append(L2);
+    buffer.append(R2);
 
 
+//    qDebug() <<L2;
+//    qDebug() << R2;
     m_pTcpSocket->write(buffer);
-
 }
 
 void GamepadThread::buttonStateChanged(){
-    QByteArray buffer;
-    buffer.append(QString::number(m_gamepad->axisLeftX())+"S"+QString::number(m_gamepad->axisLeftY()) + "S" + QString::number(m_gamepad->axisRightX()) + "S" + QString::number(m_gamepad->axisRightY())+ "S" + QString::number(m_gamepad->buttonA())  + "S" + QString::number(m_gamepad->buttonB()) + "S" + QString::number(m_gamepad->buttonX()) + "S" + QString::number(m_gamepad->buttonY())+ "S" + QString::number(m_gamepad->buttonL2()) + "S" + QString::number(m_gamepad->buttonR2())      );
-    m_pTcpSocket->write(buffer);
+//    QByteArray buffer;
+//    buffer.append(QString::number(m_gamepad->axisLeftX())+"S"+QString::number(m_gamepad->axisLeftY()) + "S" + QString::number(m_gamepad->axisRightX()) + "S" + QString::number(m_gamepad->axisRightY())+ "S" + QString::number(m_gamepad->buttonA())  + "S" + QString::number(m_gamepad->buttonB()) + "S" + QString::number(m_gamepad->buttonX()) + "S" + QString::number(m_gamepad->buttonY())+ "S" + QString::number(m_gamepad->buttonL2()) + "S" + QString::number(m_gamepad->buttonR2())      );
+//    m_pTcpSocket->write(buffer);
 }
 
+int GamepadThread::mapRange(int x, int in_min, int in_max, int out_min, int out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}

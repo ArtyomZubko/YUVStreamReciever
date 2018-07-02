@@ -23,15 +23,13 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::readyRead(){
-    qDebug() << "ready read recieved";
-    buffer_mutex.lock();
     QHostAddress sender;
     quint16 senderPort;
-    QByteArray datagramBuffer;
+    //qDebug() << "ready read recieved";
+    buffer_mutex.lock();
     datagramBuffer.resize(socket->pendingDatagramSize());
     socket->readDatagram(datagramBuffer.data(), datagramBuffer.size(), &sender, &senderPort);
     buffer.append(datagramBuffer);
-    //delete datagramBuffer;
     buffer_mutex.unlock();
 
     if (buffer.size() > SIZE_OF_YUV420p_FRAME+2)

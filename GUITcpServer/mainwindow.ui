@@ -100,7 +100,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>192.168.0.199</string>
+     <string>192.168.0.20</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="gmpdPort">
@@ -113,7 +113,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>9998</string>
+     <string>9997</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">

@@ -41,6 +41,7 @@ private:
     const qint64 FRAME_HEIGHT = 480;//320;
     const qint64 FRAME_WIDTH = 640;//560;
     qint64 SIZE_OF_YUV420p_FRAME = ((FRAME_HEIGHT * FRAME_WIDTH)/8)*12 ;
+    QByteArray datagramBuffer;
 };
 
 #endif // MAINWINDOW_H

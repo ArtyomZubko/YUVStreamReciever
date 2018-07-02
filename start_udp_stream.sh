@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo modprobe bcm2835-v4l2
-sudo v4l2-ctl --set-fmt-video=width=560,height=320,pixelformat=0
+sudo v4l2-ctl --set-fmt-video=width=620,height=480,pixelformat=0
 
 hostname="$1"
 hostport="$2"

@@ -9,7 +9,6 @@
 #include <QtGamepad/QGamepad>
 #include <QtGamepad/QGamepadManager>
 #include <QTimer>
-#include <QJsonObject>
 
 class GamepadThread: public QThread
 {
@@ -23,7 +22,7 @@ public:
     {
         exec();
     }
-
+int mapRange(int x, int in_min, int in_max, int out_min, int out_max);
 signals:
 
 public slots:
@@ -36,6 +35,7 @@ private:
     QTcpSocket* m_pTcpSocket;
     QGamepad *m_gamepad;
     QTimer *tmr;
+    QByteArray buffer;
 };
 
 

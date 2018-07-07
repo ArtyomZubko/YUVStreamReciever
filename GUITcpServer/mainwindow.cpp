@@ -14,10 +14,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::newConnection()
 {
+    buffer.clear();
+
     QTcpSocket *socket = server->nextPendingConnection();
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(clientDisconnected()));
     qDebug() << "New connection available";
+
+    ui->startServerButton->setEnabled(false);
 
 }
 
@@ -60,6 +64,7 @@ void MainWindow::on_startServerButton_clicked()
         qDebug() << "Видеосервер запущен";
         ui->statusabel->setText("Видеосервер запущен");
     } else {
+        ui->startServerButton->setEnabled(true);
         qDebug() << "Видеосервер не смог стартовать";
         ui->statusabel->setText("Видеосервер не смог стартовать");
     }
@@ -71,11 +76,16 @@ void MainWindow::on_startServerButton_clicked()
 void MainWindow::clientDisconnected()
 {
     ui->startServerButton->setEnabled(true);
-    ui->label->setText("СВЯЗЬ С КЛИЕНТОМ ПРЕРВАНА! ПЕРЕЗАПУСТИТЕ СЕРВЕР, ПОВТОРНО НАЖАВ НА \nКНОПКУ ЗАПУСКА");
+    ui->label->setText("СВЯЗЬ С КЛИЕНТОМ ПРЕРВАНА! ВОЗОБНОВИТЕ ТРАНСЛЯЦИЮ С КЛИЕНТА, \nЛИБО ПЕРЕЗАПУСТИТЕ СЕРВЕР, ПОВТОРНО НАЖАВ НА КНОПКУ ЗАПУСКА");
 }
 
 void MainWindow::on_gmpdconnButton_clicked()
 {
+    if (isButtonClicked == true) {
+        gpthread->terminate();
+    }
+
     gpthread = new GamepadThread(ui->gmpdAdress->text(),ui->gmpdPort->text().toInt());
     gpthread->start();
+    isgmpdconnButtonClicked = true;
 }

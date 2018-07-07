@@ -50,7 +50,8 @@ private:
     paintThread *current_pthread;
     qint64 total_filesize = 0;
     QByteArray buffer;
-    bool isButtonClicked = false;
+    bool isButtonClicked = false, isgmpdconnButtonClicked = false;
+
 };
 
 #endif // MAINWINDOW_H

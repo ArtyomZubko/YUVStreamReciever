@@ -10,7 +10,7 @@ GamepadThread::GamepadThread(QString adress,int port)
     m_pTcpSocket = new QTcpSocket(this);
     m_pTcpSocket->connectToHost(adress, port);
     connect(m_pTcpSocket, SIGNAL(connected()), this,SLOT(slotConnected()));
-
+    connect(this, SIGNAL(finished()),this, SLOT(threadFinished()));
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
     if (gamepads.isEmpty()) {
         return;
@@ -82,7 +82,12 @@ void GamepadThread::updateTime()
 void GamepadThread::buttonStateChanged(){
 //    QByteArray buffer;
 //    buffer.append(QString::number(m_gamepad->axisLeftX())+"S"+QString::number(m_gamepad->axisLeftY()) + "S" + QString::number(m_gamepad->axisRightX()) + "S" + QString::number(m_gamepad->axisRightY())+ "S" + QString::number(m_gamepad->buttonA())  + "S" + QString::number(m_gamepad->buttonB()) + "S" + QString::number(m_gamepad->buttonX()) + "S" + QString::number(m_gamepad->buttonY())+ "S" + QString::number(m_gamepad->buttonL2()) + "S" + QString::number(m_gamepad->buttonR2())      );
-//    m_pTcpSocket->write(buffer);
+    //    m_pTcpSocket->write(buffer);
+}
+
+void GamepadThread::threadFinished()
+{
+    m_pTcpSocket->disconnectFromHost();
 }
 
 int GamepadThread::mapRange(int x, int in_min, int in_max, int out_min, int out_max)

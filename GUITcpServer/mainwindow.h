@@ -38,7 +38,7 @@ signals:
 
 private slots:
     void on_startServerButton_clicked();
-
+    void clientDisconnected();
     void on_gmpdconnButton_clicked();
 
 private:
@@ -47,9 +47,10 @@ private:
     QTcpServer *server;
     GamepadThread *gpthread;
     paintThread *pthread;
+    paintThread *current_pthread;
     qint64 total_filesize = 0;
     QByteArray buffer;
-
+    bool isButtonClicked = false;
 };
 
 #endif // MAINWINDOW_H

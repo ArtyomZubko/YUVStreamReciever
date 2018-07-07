@@ -11,15 +11,16 @@ class paintThread : public QThread
 {
     Q_OBJECT
 public:
+    paintThread();
+
     void run()
     {
         exec();
     }
 
-
 public slots:
     void paintFrame(QByteArray *buffer);
-
+    void threadFinished();
 signals:
     void matReady(cv::Mat*);
 
@@ -30,6 +31,7 @@ private:
     qint64 SIZE_OF_YUV420p_FRAME = ((FRAME_HEIGHT * FRAME_WIDTH)/8)*12 ;
     QByteArray imageBuffer;
     qint64 *framecount = 0;
+    QByteArray *tcp_buffer;
 
 };
 

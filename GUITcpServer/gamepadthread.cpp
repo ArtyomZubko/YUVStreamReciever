@@ -6,6 +6,7 @@ GamepadThread::GamepadThread(QString adress,int port)
 //    socket->bind(QHostAddress::Any, 1234);
 //    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
+
     m_pTcpSocket = new QTcpSocket(this);
     m_pTcpSocket->connectToHost(adress, port);
     connect(m_pTcpSocket, SIGNAL(connected()), this,SLOT(slotConnected()));

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>701</width>
-    <height>632</height>
+    <height>658</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -150,6 +150,19 @@
     </property>
     <property name="text">
      <string>Порт</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="statusabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>570</y>
+      <width>641</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

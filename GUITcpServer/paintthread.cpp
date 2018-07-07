@@ -1,8 +1,14 @@
 #include "paintthread.h"
 
 
+paintThread::paintThread()
+{
+    connect(this, SIGNAL(finished()),this, SLOT(threadFinished()));
+}
+
 void paintThread::paintFrame(QByteArray *buffer)
 {
+   tcp_buffer = buffer;
    while (buffer->size() >= SIZE_OF_YUV420p_FRAME)
     {
        //qDebug() << "start to calc";
@@ -19,5 +25,11 @@ void paintThread::paintFrame(QByteArray *buffer)
         //qDebug() << "Frames:" << framecount;
 
         emit matReady(img);
-    }
+   }
+}
+
+void paintThread::threadFinished()
+{
+    buff_mutex.unlock();
+    tcp_buffer->clear();
 }

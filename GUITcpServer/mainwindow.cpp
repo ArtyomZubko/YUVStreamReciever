@@ -16,6 +16,7 @@ void MainWindow::newConnection()
 {
     QTcpSocket *socket = server->nextPendingConnection();
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(socket,SIGNAL(disconnected()),this,SLOT(clientDisconnected()));
     qDebug() << "New connection available";
 
 }
@@ -26,7 +27,6 @@ void MainWindow::readyRead()
     buffer_mutex.lock();
     buffer.append(clientSocket->readAll());
     buffer_mutex.unlock();
-
     emit payloadArrived(&buffer); //сигнал в поток о том, что буффер пополнен
 }
 
@@ -41,8 +41,14 @@ void MainWindow::readyPaint(cv::Mat *img)
 
 void MainWindow::on_startServerButton_clicked()
 {
+    if (isButtonClicked == true) {
+        current_pthread->terminate();
+        server->close();
+    }
+
     server = new QTcpServer(this);
     pthread = new paintThread(); //создание потока
+    current_pthread = pthread; // запоминаем текущий поток
 
     connect(this, SIGNAL(payloadArrived(QByteArray*)),pthread, SLOT(paintFrame(QByteArray*)));//сигнал буффер пополнен к слоту потока
     connect(pthread, SIGNAL(matReady(cv::Mat*)),this, SLOT(readyPaint(cv::Mat*)));//сигнал о том, что матрица готова в потоке к текущему слоту отрисовки
@@ -51,10 +57,21 @@ void MainWindow::on_startServerButton_clicked()
     pthread->start();
 
     if(server->listen(QHostAddress::Any,ui->portNum->text().toInt())){
-        qDebug() << "Server started старт!";
+        qDebug() << "Видеосервер запущен";
+        ui->statusabel->setText("Видеосервер запущен");
     } else {
-        qDebug() << "Server could not start";
+        qDebug() << "Видеосервер не смог стартовать";
+        ui->statusabel->setText("Видеосервер не смог стартовать");
     }
+
+    isButtonClicked = true;
+    ui->startServerButton->setEnabled(false);
+}
+
+void MainWindow::clientDisconnected()
+{
+    ui->startServerButton->setEnabled(true);
+    ui->label->setText("СВЯЗЬ С КЛИЕНТОМ ПРЕРВАНА! ПЕРЕЗАПУСТИТЕ СЕРВЕР, ПОВТОРНО НАЖАВ НА \nКНОПКУ ЗАПУСКА");
 }
 
 void MainWindow::on_gmpdconnButton_clicked()

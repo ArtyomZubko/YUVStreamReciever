@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#define USE_OPENCV
+
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QTcpServer>
@@ -9,10 +11,12 @@
 #include <QDataStream>
 #include <QGraphicsScene>
 #include <QMutex>
-#include "paintthread.h"
 #include "gamepadthread.h"
-#include <opencv2/opencv.hpp>
 
+#ifdef USE_OPENCV
+#include <opencv2/opencv.hpp>
+#include "paintthread.h"
+#endif
 
 namespace Ui {
 class MainWindow;
@@ -29,8 +33,9 @@ public:
 public slots:
     void newConnection();
     void readyRead();
+    #ifdef USE_OPENCV
     void readyPaint(cv::Mat*img);
-
+    #endif
 
 signals:
     void payloadArrived(QByteArray *receive_buffer);
@@ -42,12 +47,14 @@ private slots:
     void on_gmpdconnButton_clicked();
 
 private:
+#ifdef USE_OPENCV
+    paintThread *pthread;
+    paintThread *current_pthread;
+#endif
     QMutex buffer_mutex;
     Ui::MainWindow *ui;
     QTcpServer *server;
     GamepadThread *gpthread;
-    paintThread *pthread;
-    paintThread *current_pthread;
     qint64 total_filesize = 0;
     QByteArray buffer;
     bool isButtonClicked = false, isgmpdconnButtonClicked = false;

@@ -34,17 +34,19 @@ void MainWindow::readyRead()
     emit payloadArrived(&buffer); //сигнал в поток о том, что буффер пополнен
 }
 
-
+#ifdef USE_OPENCV
 //отрисовка
+
 void MainWindow::readyPaint(cv::Mat *img)
 {
     ui->label->setPixmap(QPixmap::fromImage(QImage(img->data, img->cols, img->rows, img->step, QImage::Format_RGB888)));
     delete img;
 }
-
+#endif
 
 void MainWindow::on_startServerButton_clicked()
 {
+#ifdef USE_OPENCV
     if (isButtonClicked == true) {
         current_pthread->terminate();
         server->close();
@@ -71,6 +73,7 @@ void MainWindow::on_startServerButton_clicked()
 
     isButtonClicked = true;
     ui->startServerButton->setEnabled(false);
+#endif
 }
 
 void MainWindow::clientDisconnected()

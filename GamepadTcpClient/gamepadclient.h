@@ -13,14 +13,17 @@ class GamepadClient : public QObject
     Q_OBJECT
 public:
     explicit GamepadClient(QString,int);
+    ~GamepadClient();
     int mapRange(int x, int in_min, int in_max, int out_min, int out_max);
 
 signals:
+    void state(int);
 
 public slots:
     void updateTime();
     void threadFinished();
     void connectToHost();
+    void connectedToHost();
 
 private:
     QTcpSocket* pTcpSocket;
@@ -28,7 +31,7 @@ private:
     QTimer *timer;
     QByteArray buffer;
     QString hostName;
-    int hostPort;
+    int hostPort, stateVar = 0;
 };
 
 #endif // GAMEPADCLIENT_H

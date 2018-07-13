@@ -5,23 +5,40 @@ GamepadClient::GamepadClient(QString adress, int port):hostName(adress), hostPor
 
 }
 
+GamepadClient::~GamepadClient()
+{
+   if(stateVar == 0)pTcpSocket->disconnectFromHost();
+}
+
 void GamepadClient::connectToHost()
 {
-    pTcpSocket = new QTcpSocket(this);
-    pTcpSocket->connectToHost(hostName, hostPort);
-    connect(pTcpSocket, SIGNAL(connected()), this,SLOT(slotConnected()));
-    connect(this, SIGNAL(finished()),this, SLOT(threadFinished()));
-
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
 
     if (!gamepads.isEmpty()) {
+        stateVar = 0;
+
         gamepad = new QGamepad(*gamepads.begin(), this);
+
+        pTcpSocket = new QTcpSocket(this);
+        pTcpSocket->connectToHost(hostName, hostPort);
+
+        connect(pTcpSocket, SIGNAL(connected()), this,SLOT(connectedToHost()));
+        connect(this, SIGNAL(finished()),this, SLOT(threadFinished()));
 
         timer = new QTimer();
         timer->setInterval(20);
         connect(timer, SIGNAL(timeout()), this, SLOT(updateTime()));
         timer->start();
+    }else{
+        emit state(1);
+        stateVar = 1;
     }
+}
+
+void GamepadClient::connectedToHost()
+{
+    stateVar = 0;
+    emit state(0);
 }
 
 int GamepadClient::mapRange(int x, int in_min, int in_max, int out_min, int out_max)
@@ -60,4 +77,5 @@ void GamepadClient::updateTime()
 void GamepadClient::threadFinished()
 {
     pTcpSocket->disconnectFromHost();
+    qDebug()<<"f";
 }

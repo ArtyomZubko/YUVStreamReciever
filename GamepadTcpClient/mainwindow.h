@@ -19,10 +19,12 @@ public:
 
 private slots:
     void on_connectBtn_clicked();
+    void processState(int);
 
 private:
     Ui::MainWindow *ui;
     GamepadClient *gmpad;
+    bool clicked = false;
 };
 
 #endif // MAINWINDOW_H

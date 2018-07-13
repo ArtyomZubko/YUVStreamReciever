@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Gamepad connection</string>
+   <string>Gamepad TCP client</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLineEdit" name="hostAdress">
